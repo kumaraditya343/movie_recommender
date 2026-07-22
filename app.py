@@ -4,21 +4,19 @@ import pandas as pd
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
-    distances = similarity[movie_index]
-    movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
+    indices = top_indices[movie_index][:5]   # top 5 similar movie indices
 
     recommended_movies = []
-    for i in movies_list:
-        movie_id = i[1]
-        #fetching the movie poster from TMDB API
-        
-        recommended_movies.append(movies.iloc[i[0]].title)
+    for idx in indices:
+        recommended_movies.append(movies.iloc[idx].title)
     return recommended_movies
 
 movies_dict = pickle.load(open('model/movies_dict.pkl','rb'))
 movies = pd.DataFrame(movies_dict)
 
-similarity = pickle.load(open('model/similarity.pkl','rb'))
+similarity_data = pickle.load(open('model/similarity_top.pkl','rb'))
+top_indices = similarity_data['indices']
+top_scores = similarity_data['scores']
 
 st.title('Movie Recommender System')
 
