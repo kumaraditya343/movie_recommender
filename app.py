@@ -4,6 +4,15 @@ import pandas as pd
 import requests
 import time
 
+st.set_page_config(page_title="Movie Recommender", page_icon="🎬", layout="wide")
+
+# --- Load external CSS ---
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+load_css("style.css")
+
 # TMDB API configuration
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=748294e42d4de6ddf4804728577582d3&language=en-US".format(movie_id)
